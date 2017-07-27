@@ -57,9 +57,8 @@ app.post('/api/sensor',function (req, res) {
 
 	homeJSON.forEach(function(roomJSON, i) {
 		if (deviceMAC == roomJSON.mac) {
-			roomJSON.presence = presence;
-			
 			var value = presence > 0 ? 1 : 0;
+			roomJSON.presence = value;
 
 			gpio[i].write(value, function() {
 				console.log('Post from the HuzzaFeather with MAC '+deviceMAC+ ' presence detected ' + value)
