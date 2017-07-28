@@ -71,3 +71,6 @@ http://www.instructables.com/id/WiFi-Enabled-MP3-Player-Using-the-ESP8266-Module
 
 Chip que usa protocola I2S (especifico de som)
 https://www.adafruit.com/product/3006
+
+Turn a RaspBerryPi 3 into a WiFi router-hotspot
+https://medium.com/@edoardo849/turn-a-raspberrypi-3-into-a-wifi-router-hotspot-41b03500080e
