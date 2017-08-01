@@ -1,19 +1,22 @@
+require('console-stamp')(console, '[HH:MM:ss.l]');
 var express = require('express');
 var bodyParser = require('body-parser');
-var onoff = require('onoff');
+//var onoff = require('onoff');
 var url = require('url');
 
 var app = express();
-var Gpio = onoff.Gpio;
+//var Gpio = onoff.Gpio;
 
+/*
 var gpio = [
 	new Gpio(6, 'out'),
 	new Gpio(13, 'out'),
 	new Gpio(19, 'out'),
 	new Gpio(26, 'out')
-]
+]*/
 
 //TODO: bind mac address to room
+
 var homeJSON = [
 	{
 	"room": "kitchen",
@@ -54,15 +57,15 @@ app.post('/api/sensor',function (req, res) {
 	var query = url_parts.query;
 	var deviceMAC = query.mac;
 	var presence = query.presence;
-
+	console.log('Post from the HuzzaFeather with MAC '+deviceMAC+ ' presence detected ' + presence)
 	homeJSON.forEach(function(roomJSON, i) {
 		if (deviceMAC == roomJSON.mac) {
 			var value = presence > 0 ? 1 : 0;
 			roomJSON.presence = value;
 
-			gpio[i].write(value, function() {
-				console.log('Post from the HuzzaFeather with MAC '+deviceMAC+ ' presence detected ' + value)
-			});
+			//gpio[i].write(value, function() {
+				//console.log('Post from the HuzzaFeather with MAC '+deviceMAC+ ' presence detected ' + value)
+			//});
 		}
 	})
 
@@ -70,10 +73,11 @@ app.post('/api/sensor',function (req, res) {
 });
 
 
+/*
 process.on('SIGINT', function() {
 	gpio.forEach(function(gpioPin) {
 		gpioPin.write(0, function() {});
 		gpioPin.unexport();
 	});
 	process.exit();
-});
+});*/

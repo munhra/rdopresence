@@ -6,9 +6,10 @@
 
 //wifi
 
-const char* ssid     = "MunhraNote2";
+const char* ssid     = "munhra_domain_pro";
 const char* password = "kgf46102r";
-const char* host = "172.24.39.17";
+const char* host = "172.21.110.22";
+
 
 //sensor
 
@@ -19,6 +20,7 @@ long unsigned int lowIn;
 //the amount of milliseconds the sensor has to be low
 //before we assume all motion has stopped
 long unsigned int pause = 5000; 
+int pirValue;
  
 boolean lockLow = true;
 boolean takeLowTime; 
@@ -38,7 +40,8 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   ArduinoOTA.handle();
-  controlPirState(); 
+  //controlPirState(); 
+  simplePirState();
 }
 
 void setupWifi() {
@@ -58,6 +61,9 @@ void setupWifi() {
   Serial.println("WiFi connected");  
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
+
+
+  
 }
 
 void setupPir() {
@@ -108,6 +114,16 @@ void setupFOTA() {
   Serial.println("Ready this one as uploaded by FOTA Sensor !!!");
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
+}
+
+void simplePirState() {
+  pirValue = digitalRead(pirPin);
+  if (pirValue) 
+  { 
+    Serial.println("==> Motion detected");
+    //Blynk.notify("T==> Motion detected");  
+  }
+  digitalWrite(ledPin, pirValue);
 }
 
 void controlPirState() {
