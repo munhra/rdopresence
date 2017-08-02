@@ -6,9 +6,9 @@
 
 //wifi
 
-const char* ssid     = "MunhraNote2";
-const char* password = "kgf46102r";
-const char* host = "172.24.39.17";
+const char* ssid     = "FollowMe-Pi3";
+const char* password = "FollowMeRadio";
+const char* host = "192.168.42.1";
 
 //sensor
 
@@ -22,15 +22,22 @@ long unsigned int pause = 5000;
  
 boolean lockLow = true;
 boolean takeLowTime; 
- 
+
+boolean postPresenceOn = true;
+boolean postPresenceOff = true;
+
 int pirPin = 13;    //the digital pin connected to the PIR sensor's output
 int ledPin = 0;
+int pirValue = 0;
+
+String roomName = "bathroom";
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   delay(100);
   setupWifi();
+  sendRegister();
   setupFOTA();
   setupPir();
 }
@@ -38,7 +45,8 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   ArduinoOTA.handle();
-  controlPirState(); 
+  //controlPirState(); 
+  controlSimplePirState();
 }
 
 void setupWifi() {
@@ -110,6 +118,36 @@ void setupFOTA() {
   Serial.println(WiFi.localIP());
 }
 
+void controlSimplePirState() {
+  pirValue = digitalRead(pirPin);
+  if (pirValue) 
+  { 
+    
+    if (postPresenceOn) {
+      postPresenceOn = false;
+      postPresenceOff = true;
+      Serial.println("Send post presence true");
+      sendDetectionPost("1");
+    }
+    
+    //Serial.println("==> Motion detected");
+    digitalWrite(pirPin, LOW);
+    //delay(500);
+  
+  }else{
+    postPresenceOn = true;
+
+    if (postPresenceOff) {
+      Serial.println("Send post presence false");
+      sendDetectionPost("0");
+      postPresenceOff = false;  
+      postPresenceOn = true;
+    }
+    
+  }
+  digitalWrite(ledPin, pirValue);
+}
+
 void controlPirState() {
      digitalWrite(ledPin, LOW);
      if(digitalRead(pirPin) == HIGH){
@@ -150,6 +188,32 @@ void controlPirState() {
        }
 }
 
+void sendRegister()
+{
+  Serial.print("connecting to ");
+  Serial.println(host);
+  
+  // Use WiFiClient class to create TCP connections
+  WiFiClient client;
+  const int httpPort = 3000;
+  
+  if (!client.connect(host, httpPort)) {
+    Serial.println("connection failed");
+    ESP.restart();
+    return;
+  }
+
+  String url = "/api/sensor/register?roomName="+roomName+"&mac="+getMacAddress()+"&ip="+ipToString(WiFi.localIP());
+
+  Serial.print("Requesting URL: ");
+  Serial.println(url);
+  client.print(String("POST ") + url + " HTTP/1.1\r\n" +
+               "Host: " + host + "\r\n" + 
+               "Connection: close\r\n\r\n");
+  Serial.println();
+  Serial.println("closing connection");
+}
+
 void sendDetectionPost(String detected) {
 
   Serial.print("connecting to ");
@@ -161,27 +225,35 @@ void sendDetectionPost(String detected) {
   
   if (!client.connect(host, httpPort)) {
     Serial.println("connection failed");
+    ESP.restart();
     return;
   }
 
-  String url = "/api/sensor?mac="+getMacAddress()+"&presence="+detected;
+  String url = "/api/sensor?roomName="+roomName+"&mac="+getMacAddress()+"&ip="+ipToString(WiFi.localIP())+"&presence="+detected;
 
   Serial.print("Requesting URL: ");
   Serial.println(url);
   client.print(String("POST ") + url + " HTTP/1.1\r\n" +
                "Host: " + host + "\r\n" + 
                "Connection: close\r\n\r\n");
-
+  /*
   delay(500);
 
    while(client.available()){
     String line = client.readStringUntil('\r');
     Serial.print(line);
-  }
+  }*/
   
   Serial.println();
   Serial.println("closing connection");
 
+}
+
+String ipToString(IPAddress ip){
+  String s="";
+  for (int i=0; i<4; i++)
+    s += i  ? "." + String(ip[i]) : String(ip[i]);
+  return s;
 }
 
 String getMacAddress() {

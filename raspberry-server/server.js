@@ -1,3 +1,4 @@
+require('console-stamp')(console, '[HH:MM:ss.l]');
 var express = require('express');
 var bodyParser = require('body-parser');
 var onoff = require('onoff');
@@ -47,6 +48,16 @@ app.get('/', function(req, res) {
 	res.send(homeJSON);
 });
 
+app.post('/api/sensor/register',function (req, res) {
+	var url_parts = url.parse(req.url, true);
+	var query = url_parts.query;
+	var deviceMAC = query.mac;
+	var ip = query.ip;
+	var roomName = query.roomName;
+	console.log('Register from the HuzzaFeather ip '+ip+' with MAC '+deviceMAC+' room '+roomName);
+	res.send('200');
+});
+
 app.post('/api/sensor',function (req, res) {
 
 	///api/sensor?mac=00:00:00:00&presence=1
@@ -54,14 +65,16 @@ app.post('/api/sensor',function (req, res) {
 	var query = url_parts.query;
 	var deviceMAC = query.mac;
 	var presence = query.presence;
-
+	var ip = query.ip;
+	var roomName = query.roomName;
+	console.log('Update presence from the HuzzaFeather ip '+ip+' with MAC '+deviceMAC+' room '+roomName+' presence detected ' + presence);
 	homeJSON.forEach(function(roomJSON, i) {
 		if (deviceMAC == roomJSON.mac) {
 			var value = presence > 0 ? 1 : 0;
 			roomJSON.presence = value;
 
 			gpio[i].write(value, function() {
-				console.log('Post from the HuzzaFeather with MAC '+deviceMAC+ ' presence detected ' + value)
+				//console.log('Post from the HuzzaFeather with MAC '+deviceMAC+ ' presence detected ' + value)
 			});
 		}
 	})
