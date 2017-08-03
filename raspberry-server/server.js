@@ -67,15 +67,17 @@ app.post('/api/sensor',function (req, res) {
 	var presence = query.presence;
 	var ip = query.ip;
 	var roomName = query.roomName;
+	var value = presence > 0 ? 1 : 0;
 	console.log('Update presence from the HuzzaFeather ip '+ip+' with MAC '+deviceMAC+' room '+roomName+' presence detected ' + presence);
 	homeJSON.forEach(function(roomJSON, i) {
 		if (deviceMAC == roomJSON.mac) {
-			var value = presence > 0 ? 1 : 0;
 			roomJSON.presence = value;
-
 			gpio[i].write(value, function() {
 				//console.log('Post from the HuzzaFeather with MAC '+deviceMAC+ ' presence detected ' + value)
 			});
+		} else if (value == 1) {
+			roomJSON.presence = 0;
+			gpio[i].write(0, function() {});
 		}
 	})
 
