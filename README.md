@@ -1,6 +1,13 @@
 # rdopresence
-conectar o ESP8266
-http://www.instructables.com/id/IoT-Motion-Detector-With-NodeMCU-and-BLYNK/
+
+## Configuração da rede do raspberry
+
+- Usuário: pi e senha:FollowMeRadio para acessar o RaspBerry 
+- O SSID da rede criada pelo raspberry para o projeto é FollowMe-Pi3
+- A senha da rede wifi criada pelo raspberry é FollowMeRadio
+- O IP fixo do raspberry é 192.168.42.1 
+
+[conectar o ESP8266] (http://www.instructables.com/id/IoT-Motion-Detector-With-NodeMCU-and-BLYNK/)
 
 https://www.mpja.com/download/31227sc.pdf
 
@@ -46,7 +53,7 @@ Motion Detector com led
 http://www.instructables.com/id/IoT-Motion-Detector-With-NodeMCU-and-BLYNK/
 
 http://esp8266.github.io/Arduino/versions/2.0.0/doc/ota_updates/ota_updates.html
-  https://github.com/esp8266/Arduino/issues/1039
+https://github.com/esp8266/Arduino/issues/1039
 
 esptool
 /Users/vntraal/Library/Arduino15/packages/esp8266/tools
@@ -74,3 +81,15 @@ https://www.adafruit.com/product/3006
 
 Turn a RaspBerryPi 3 into a WiFi router-hotspot
 https://medium.com/@edoardo849/turn-a-raspberrypi-3-into-a-wifi-router-hotspot-41b03500080e
+
+Outra alternativa para o sensor pode ser o sensor ultrasonico
+
+Como conectar o sensor ultrasonico
+https://www.14core.com/wiring-esp8266-nodemcu-with-hcsr04-ultrasonic-sensor/
+
+Especificação sensor Ultrasonico
+http://www.micropik.com/PDF/HCSR04.pdf
+
+Especificação do sensor PIR
+sensor  SR501
+https://www.mpja.com/download/31227sc.pdf
