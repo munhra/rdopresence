@@ -3,6 +3,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var onoff = require('onoff');
 var url = require('url');
+var io = require('socket.io')(server);
 
 var app = express();
 var Gpio = onoff.Gpio;
@@ -81,9 +82,21 @@ app.post('/api/sensor',function (req, res) {
 		}
 	})
 
-	res.send('200')
+	io.emit(homeJSON);
+	res.send('200');
 });
 
+io.on('connection', function (client) {
+    console.log('cliente connected');
+
+    MessageModel.find({}, function (error, messages) {
+            if (error) {
+                console.log(error);
+            } else {
+				client.emit(homeJSON);
+            }
+        })
+})
 
 process.on('SIGINT', function() {
 	gpio.forEach(function(gpioPin) {
