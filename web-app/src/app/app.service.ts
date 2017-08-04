@@ -18,4 +18,5 @@ export class AppService {
   public getJSON(): Observable<any[]> {
     return this._http.get(this._url).map(res => res.json());
   }
+
 }

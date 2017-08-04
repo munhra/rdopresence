@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
     this.homeJSON.forEach(function(roomJSON, i) {
       var roomID = roomJSON.id + "Sound";
       var visibility = roomJSON.presence > 0 ? 'visible': 'hidden';
-      this.setImageVisible(roomID, visibility);
+      document.getElementById(roomID).style.visibility = visibility;
     });
   }
 
@@ -30,11 +30,11 @@ export class AppComponent implements OnInit {
     this.homeJSON.forEach(function(roomJSON, i) {
       var roomID = roomJSON.id + "Sound";
       var visibility = roomJSON.presence > 0 ? 'visible': 'hidden';
-      this.setImageVisible(roomID, visibility);
+      document.getElementById(roomID).style.visibility = visibility;
     });
   }
 
-  setImageVisible(id, visibility) {
+  public setImageVisible(id: string, visibility: string): void {
     document.getElementById(id).style.visibility = visibility;
   }
 
