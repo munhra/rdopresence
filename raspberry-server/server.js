@@ -1,9 +1,9 @@
-require('console-stamp')(console, '[HH:MM:ss.l]');
 var express = require('express');
 var bodyParser = require('body-parser');
 var onoff = require('onoff');
 var url = require('url');
-var io = require('socket.io')(server);
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 var app = express();
 var Gpio = onoff.Gpio;
@@ -82,21 +82,20 @@ app.post('/api/sensor',function (req, res) {
 		}
 	})
 
-	io.emit(homeJSON);
+	io.emit('message', homeJSON);
 	res.send('200');
 });
 
 io.on('connection', function (client) {
     console.log('cliente connected');
-
-    MessageModel.find({}, function (error, messages) {
-            if (error) {
-                console.log(error);
-            } else {
-				client.emit(homeJSON);
-            }
-        })
+	client.emit('message', homeJSON);
+	
 })
+
+http.listen(3001, function(){
+  console.log('listening on *:3001');
+});
+
 
 process.on('SIGINT', function() {
 	gpio.forEach(function(gpioPin) {
