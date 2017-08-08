@@ -87,11 +87,11 @@ app.post('/api/sensor',function (req, res) {
 			roomJSON.presence = 0;
 			gpio[i].write(0, function() {});
 		}
-
-		if (value == 1) {
-			io.emit('message', homeJSON);
-		}
 	})
+
+	if (value == 1) {
+		io.emit('message', homeJSON);
+	}
 
 	res.send('200');
 });
