@@ -11,9 +11,8 @@
 
 ## FOTA com arduino
 
-esptool
-/Users/vntraal/Library/Arduino15/packages/esp8266/tools
-
+1. Localize a ferramenta esptool, no MAC OS X o caminho é o seguinte:
+~/Library/Arduino15/packages/esp8266/tools
 Não consegui rodar o FOTA pela interface do Arduino no MAC tive que rodar na mão mesmo, veja a baixo os comandos
 
 Ative na IDE o modo verboso para saber onde foi parar o firmware compilado.
