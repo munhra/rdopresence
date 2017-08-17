@@ -25,6 +25,10 @@ python espota.py  -i 192.168.2.25 -p 8266 -f /var/folders/pl/jqh4v7s54gl766rjxnv
 
 ## Links de referencia
 
+* ESP8266 tutorial
+
+  * https://learn.adafruit.com/adafruit-feather-huzzah-esp8266/overview
+
 * conectar o ESP8266 
 
   * http://www.instructables.com/id/IoT-Motion-Detector-With-NodeMCU-and-BLYNK/
