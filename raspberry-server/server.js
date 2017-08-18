@@ -8,6 +8,11 @@ var io = require('socket.io')(http);
 var app = express();
 var Gpio = onoff.Gpio;
 
+var SDI   = new Gpio(17, 'out');//physical pin 11
+var RCLK  = new Gpio(18, 'out');//physical pin 12
+var SRCLK = new Gpio(27, 'out');//physical pin 13
+
+
 var gpio = [
 	new Gpio(6, 'out'),
 	new Gpio(13, 'out'),
@@ -77,24 +82,53 @@ app.post('/api/sensor',function (req, res) {
 	var roomName = query.roomName;
 	var value = presence > 0 ? 1 : 0;
 	console.log('Update presence from the HuzzaFeather ip '+ip+' with MAC '+deviceMAC+' room '+roomName+' presence detected ' + presence);
-	homeJSON.forEach(function(roomJSON, i) {
-		if (deviceMAC == roomJSON.mac) {
-			roomJSON.presence = value;
-			gpio[i].write(value, function() {
-				//console.log('Post from the HuzzaFeather with MAC '+deviceMAC+ ' presence detected ' + value)
-			});
-		} else if (value == 1) {
-			roomJSON.presence = 0;
-			gpio[i].write(0, function() {});
-		}
-	})
-
 	if (value == 1) {
+		homeJSON.forEach(function(roomJSON, i) {
+			if (deviceMAC == roomJSON.mac) {
+				roomJSON.presence = value;
+				gpio[i].write(value, function() {
+					//console.log('Post from the HuzzaFeather with MAC '+deviceMAC+ ' presence detected ' + value)
+				});
+				
+
+			} else {
+				roomJSON.presence = 0;
+				gpio[i].write(0, function() {});
+			}
+		})
+
 		io.emit('message', homeJSON);
+	}
+
+	if (deviceMAC == "5C:CF:7F:8F:77:E4") {
+		RCLK.write(0, function() {});
+		hc595_in(value);
+		sleep(1).then(hc595_out());
 	}
 
 	res.send('200');
 });
+
+function sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+function hc595_in(dat) {
+	for(i = 0; i < 8; i++) {
+		console.log("a");
+		SDI.write(dat, function() {});
+		SRCLK.write(1, function() {});
+		SRCLK.write(0, function() {});
+	}
+}
+
+function hc595_out() {
+	console.log("c");
+	RCLK.write(1, function() {});
+	sleep(1).then(() => {
+		RCLK.write(0, function() {});
+	});
+}
 
 io.on('connection', function (client) {
     console.log('cliente connected');
