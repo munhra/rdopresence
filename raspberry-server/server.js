@@ -22,24 +22,45 @@ var gpio = [
 
 //TODO: bind mac address to room
 var homeJSON = [
+	// {
+	// "room": "kitchen",
+	// "mac": "5C:CF:7F:8F:77:E4",
+	// "presence": 0
+	// },
 	{
 	"room": "kitchen",
+	"mac": "5C:CF:7F:8F:72:BE",
+	"presence": 0
+	},
+	// {
+	// "room": "livingroom",
+	// "mac": "5C:CF:7F:8F:74:CF",
+	// "presence": 0
+	// },
+	{
+	"room": "livingroom",
 	"mac": "5C:CF:7F:8F:77:E4",
 	"presence": 0
 	},
-	{
-	"room": "livingroom",
-	"mac": "5C:CF:7F:8F:74:CF",
-	"presence": 0
-	},
+
+	// {
+	// "room": "bathroom",
+	// "mac": "5C:CF:7F:8F:6D:7C",
+	// "presence": 0
+	// },
 	{
 	"room": "bathroom",
-	"mac": "5C:CF:7F:8F:6D:7C",
+	"mac": "5C:CF:7F:D5:D0:56",
 	"presence": 0
 	},
+	// {
+	// "room": "bedroom",
+	// "mac": "5C:CF:7F:0D:D9:4F",
+	// "presence": 0
+	// }
 	{
 	"room": "bedroom",
-	"mac": "5C:CF:7F:0D:D9:4F",
+	"mac": "5C:CF:7F:D5:D0:35",
 	"presence": 0
 	}
 ]
