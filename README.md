@@ -8,6 +8,9 @@
 - O IP fixo do raspberry é 192.168.42.1 
 - O servidor backend está em 192.168.42.1:3000
 - O Frontend está em 192.168.42.1:4200
+- Caminho do servidor no Raspberry
+   
+   ```/home/pi/FollowingMeRadio/rdopresence/raspberry-server/server.js```
 
 ## FOTA com arduino
 
