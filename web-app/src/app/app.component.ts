@@ -34,10 +34,13 @@ export class AppComponent implements OnInit, AfterViewChecked {
       var visibility = roomJSON.presence > 0 ? 'visible': 'hidden';
       document.getElementById(roomID).style.visibility = visibility;
 
-      var audio = new Audio();
-      audio.src = "../assets/beep.mp3"
-      audio.load();
-      audio.play();
+      if (roomJSON.presence > 0) {
+        var audio = new Audio();
+        audio.src = "../assets/beep.mp3"
+        audio.load();
+        audio.play();
+      }
+      
     });
   }
 
