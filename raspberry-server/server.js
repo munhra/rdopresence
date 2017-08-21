@@ -17,7 +17,8 @@ var gpio = [
 	new Gpio(6, 'out'),
 	new Gpio(13, 'out'),
 	new Gpio(19, 'out'),
-	new Gpio(26, 'out')
+	new Gpio(26, 'out'),
+	// new Gpio(7, 'out') //GAMBIARRA
 ]
 
 //TODO: bind mac address to room
@@ -42,7 +43,11 @@ var homeJSON = [
 	"mac": "5C:CF:7F:8F:77:E4",
 	"presence": 0
 	},
-
+	// {
+	// "room": "livingroom",
+	// "mac": "5C:CF:7F:8F:6D:7C",
+	// "presence": 0
+	// },
 	// {
 	// "room": "bathroom",
 	// "mac": "5C:CF:7F:8F:6D:7C",
