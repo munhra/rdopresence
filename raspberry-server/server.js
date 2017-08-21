@@ -141,7 +141,6 @@ function sleep (time) {
 
 function hc595_in(dat) {
 	for(i = 0; i < 8; i++) {
-		console.log("a");
 		SDI.write(dat, function() {});
 		SRCLK.write(1, function() {});
 		SRCLK.write(0, function() {});
@@ -149,7 +148,6 @@ function hc595_in(dat) {
 }
 
 function hc595_out() {
-	console.log("c");
 	RCLK.write(1, function() {});
 	sleep(1).then(() => {
 		RCLK.write(0, function() {});

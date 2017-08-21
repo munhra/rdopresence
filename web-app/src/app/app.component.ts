@@ -11,7 +11,8 @@ import 'rxjs/Rx';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, AfterViewChecked {
-  homeJSON: any[]= [];
+  homeJSON: any[] = [];
+  audio;
 
   constructor(private appMessage: AppService) {
     this.appMessage.getJSON().subscribe(
@@ -21,6 +22,9 @@ export class AppComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
+    this.audio = new Audio();
+    this.audio.src = "../assets/beep.mp3"
+    this.audio.load();
     this.homeJSON.forEach(function(roomJSON, i) {
       var roomID = roomJSON.room + "Sound";
       var visibility = roomJSON.presence > 0 ? 'visible': 'hidden';
@@ -35,12 +39,9 @@ export class AppComponent implements OnInit, AfterViewChecked {
       document.getElementById(roomID).style.visibility = visibility;
 
       if (roomJSON.presence > 0) {
-        var audio = new Audio();
-        audio.src = "../assets/beep.mp3"
-        audio.load();
-        audio.play();
+        this.audio.play();
       }
-      
+
     });
   }
 
