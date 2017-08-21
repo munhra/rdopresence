@@ -17,7 +17,8 @@ var gpio = [
 	new Gpio(6, 'out'),
 	new Gpio(13, 'out'),
 	new Gpio(19, 'out'),
-	new Gpio(26, 'out')
+	new Gpio(26, 'out'),
+	// new Gpio(7, 'out') //GAMBIARRA
 ]
 
 //TODO: bind mac address to room
@@ -42,7 +43,11 @@ var homeJSON = [
 	"mac": "5C:CF:7F:8F:77:E4",
 	"presence": 0
 	},
-
+	// {
+	// "room": "livingroom",
+	// "mac": "5C:CF:7F:8F:6D:7C",
+	// "presence": 0
+	// },
 	// {
 	// "room": "bathroom",
 	// "mac": "5C:CF:7F:8F:6D:7C",
@@ -136,7 +141,6 @@ function sleep (time) {
 
 function hc595_in(dat) {
 	for(i = 0; i < 8; i++) {
-		console.log("a");
 		SDI.write(dat, function() {});
 		SRCLK.write(1, function() {});
 		SRCLK.write(0, function() {});
@@ -144,7 +148,6 @@ function hc595_in(dat) {
 }
 
 function hc595_out() {
-	console.log("c");
 	RCLK.write(1, function() {});
 	sleep(1).then(() => {
 		RCLK.write(0, function() {});

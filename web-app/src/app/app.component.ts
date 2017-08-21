@@ -11,7 +11,8 @@ import 'rxjs/Rx';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, AfterViewChecked {
-  homeJSON: any[]= [];
+  homeJSON: any[] = [];
+  audio;
 
   constructor(private appMessage: AppService) {
     this.appMessage.getJSON().subscribe(
