@@ -22,9 +22,6 @@ export class AppComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    this.audio = new Audio();
-    this.audio.src = "../assets/beep.mp3"
-    this.audio.load();
     this.homeJSON.forEach(function(roomJSON, i) {
       var roomID = roomJSON.room + "Sound";
       var visibility = roomJSON.presence > 0 ? 'visible': 'hidden';
@@ -37,11 +34,6 @@ export class AppComponent implements OnInit, AfterViewChecked {
       var roomID = roomJSON.room + "Sound";
       var visibility = roomJSON.presence > 0 ? 'visible': 'hidden';
       document.getElementById(roomID).style.visibility = visibility;
-
-      if (roomJSON.presence > 0) {
-        this.audio.play();
-      }
-
     });
   }
 
