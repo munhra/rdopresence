@@ -89,7 +89,6 @@ app.post('/api/sensor/register',function (req, res) {
 
 	// homeJSON.forEach(function(roomJSON, i) {
 	// 	if (roomName == roomJSON.room) {
-	// 		if (_.find)
 	// 		roomJSON.mac.push = [deviceMAC];
 	// 	}
 	// })
