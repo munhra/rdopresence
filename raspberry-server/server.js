@@ -85,9 +85,12 @@ app.post('/api/sensor/register',function (req, res) {
 	var ip = query.ip;
 	var roomName = query.roomName;
 
+	
+
 	// homeJSON.forEach(function(roomJSON, i) {
 	// 	if (roomName == roomJSON.room) {
-	// 		roomJSON.mac = [deviceMAC];
+	// 		if (_.find)
+	// 		roomJSON.mac.push = [deviceMAC];
 	// 	}
 	// })
 

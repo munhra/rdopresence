@@ -13,7 +13,10 @@ const char* host = "192.168.42.1";
 //sensor
 #define TRIGGER 12
 #define ECHO    13
-#define WALL_DISTANCE 10
+//#define WALL_DISTANCE 140 //Kitchen
+#define WALL_DISTANCE 90 //bedroom
+//#define WALL_DISTANCE 69 //bathroom
+//#define WALL_DISTANCE 120 //livingroom
 
 boolean sendPresenceDetected= true;
 boolean sendPresenceNotDetected = true;
@@ -36,7 +39,7 @@ int pirPin = 13;    //the digital pin connected to the PIR sensor's output
 int ledPin = 0;
 int pirValue = 0;
 
-String roomName = "livingroom";
+String roomName = "bedroom";
 
 void setup() {
   // put your setup code here, to run once:
@@ -143,6 +146,8 @@ void controlSimpleSonicState() {
   digitalWrite(TRIGGER, LOW);
   duration = pulseIn(ECHO, HIGH);
   distance = (duration/2) / 29.1;
+
+  Serial.println(distance);
   
   if (distance < WALL_DISTANCE) {
   

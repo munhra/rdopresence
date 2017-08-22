@@ -1,28 +1,15 @@
 #include <ESP8266WiFi.h>
 #include <ArduinoOTA.h>
 #include <ESP8266mDNS.h>
-#include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 
 //wifi
-
 const char* ssid     = "FollowMe-Pi3";
 const char* password = "FollowMeRadio";
 const char* host = "192.168.42.1";
 
-//sensor
-
-//the time we give the sensor to calibrate (10-60 secs according to the datasheet)
+//sensor PIR
 int calibrationTime = 30;        
-//the time when the sensor outputs a low impulse
-long unsigned int lowIn;        
-//the amount of milliseconds the sensor has to be low
-//before we assume all motion has stopped
-long unsigned int pause = 5000; 
- 
-boolean lockLow = true;
-boolean takeLowTime; 
-
 boolean postPresenceOn = true;
 boolean postPresenceOff = true;
 
@@ -30,10 +17,9 @@ int pirPin = 13;    //the digital pin connected to the PIR sensor's output
 int ledPin = 0;
 int pirValue = 0;
 
-String roomName = "bathroom";
+String roomName = "livingroom";
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(115200);
   delay(100);
   setupWifi();
@@ -43,9 +29,7 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
   ArduinoOTA.handle();
-  //controlPirState(); 
   controlSimplePirState();
 }
 
@@ -69,12 +53,9 @@ void setupWifi() {
 }
 
 void setupPir() {
-  
   pinMode(pirPin, INPUT);
   pinMode(ledPin, OUTPUT);
   digitalWrite(pirPin, LOW);
-  
-  //give the sensor some time to calibrate
   Serial.print("calibrating sensor ");
     for(int i = 0; i < calibrationTime; i++){
       Serial.print(".");
@@ -86,15 +67,7 @@ void setupPir() {
 }
 
 void setupFOTA() {
-  // Port defaults to 8266
-  // ArduinoOTA.setPort(8266);
-
-  // Hostname defaults to esp8266-[ChipID]
-     ArduinoOTA.setHostname("munhraESP8266");
-
-  // No authentication by default
-  // ArduinoOTA.setPassword((const char *)"123");
-
+  ArduinoOTA.setHostname("munhraESP8266");     
   ArduinoOTA.onStart([]() {
     Serial.println("Start");
   });
@@ -121,79 +94,31 @@ void setupFOTA() {
 void controlSimplePirState() {
   pirValue = digitalRead(pirPin);
   if (pirValue) 
-  { 
-    
+  {  
     if (postPresenceOn) {
       postPresenceOn = false;
       postPresenceOff = true;
       Serial.println("Send post presence true");
       sendDetectionPost("1");
     }
-    
-    //Serial.println("==> Motion detected");
     digitalWrite(pirPin, LOW);
-    //delay(500);
-  
   }else{
     postPresenceOn = true;
-
     if (postPresenceOff) {
       Serial.println("Send post presence false");
       sendDetectionPost("0");
       postPresenceOff = false;  
       postPresenceOn = true;
     }
-    
   }
   digitalWrite(ledPin, pirValue);
-}
-
-void controlPirState() {
-     digitalWrite(ledPin, LOW);
-     if(digitalRead(pirPin) == HIGH){
-       digitalWrite(ledPin, HIGH);   //the led visualizes the sensors output pin state
-       if(lockLow){ 
-         //makes sure we wait for a transition to LOW before any further output is made:
-         lockLow = false;           
-         Serial.println("---");
-         Serial.print("motion detected at ");
-         sendDetectionPost("1");
-         Serial.print(millis()/1000);
-         Serial.println(" sec");
-         delay(50);
-         }        
-         takeLowTime = true;
-       }
- 
-     if(digitalRead(pirPin) == LOW){      
-       digitalWrite(ledPin, LOW);  //the led visualizes the sensors output pin state
- 
-       if(takeLowTime){
-        lowIn = millis();          //save the time of the transition from high to LOW
-        takeLowTime = false;       //make sure this is only done at the start of a LOW phase
-        }
-       //if the sensor is low for more than the given pause,
-       //we assume that no more motion is going to happen
-       if(!lockLow && millis() - lowIn > pause){ 
-           //makes sure this block of code is only executed again after
-           //a new motion sequence has been detected
-           lockLow = true;                       
-           Serial.print("motion ended at ");      //output
-           sendDetectionPost("0");
-           Serial.print((millis() - pause)/1000);
-           Serial.println(" sec");
-           digitalWrite(ledPin, LOW);
-           delay(50);
-           }
-       }
 }
 
 void sendRegister()
 {
   Serial.print("connecting to ");
   Serial.println(host);
-  
-  // Use WiFiClient class to create TCP connections
+ 
   WiFiClient client;
   const int httpPort = 3000;
   
@@ -219,7 +144,6 @@ void sendDetectionPost(String detected) {
   Serial.print("connecting to ");
   Serial.println(host);
   
-  // Use WiFiClient class to create TCP connections
   WiFiClient client;
   const int httpPort = 3000;
   
@@ -236,17 +160,9 @@ void sendDetectionPost(String detected) {
   client.print(String("POST ") + url + " HTTP/1.1\r\n" +
                "Host: " + host + "\r\n" + 
                "Connection: close\r\n\r\n");
-  /*
-  delay(500);
-
-   while(client.available()){
-    String line = client.readStringUntil('\r');
-    Serial.print(line);
-  }*/
   
   Serial.println();
   Serial.println("closing connection");
-
 }
 
 String ipToString(IPAddress ip){
@@ -265,7 +181,7 @@ String getMacAddress() {
    }
   cMac += String(mac[i],HEX);
   if(i<5)
-    cMac += ":"; // put : or - if you want byte delimiters
+    cMac += ":";
   }
   cMac.toUpperCase();
   return cMac;
