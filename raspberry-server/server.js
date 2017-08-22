@@ -87,12 +87,12 @@ app.post('/api/sensor/register',function (req, res) {
 
 	
 
-	homeJSON.forEach(function(roomJSON, i) {
-		if (roomName == roomJSON.room) {
-			if (_.find)
-			roomJSON.mac.push = [deviceMAC];
-		}
-	})
+	// homeJSON.forEach(function(roomJSON, i) {
+	// 	if (roomName == roomJSON.room) {
+	// 		if (_.find)
+	// 		roomJSON.mac.push = [deviceMAC];
+	// 	}
+	// })
 
 	console.log('Register from the HuzzaFeather ip '+ip+' with MAC '+deviceMAC+' room '+roomName);
 	res.send('200');
