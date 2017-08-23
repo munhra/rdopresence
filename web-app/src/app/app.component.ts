@@ -22,14 +22,14 @@ export class AppComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    this.homeJSON.forEach(function(roomJSON, i) {
-      var roomID = roomJSON.room + "Sound";
-      var visibility = roomJSON.presence > 0 ? 'visible': 'hidden';
-      document.getElementById(roomID).style.visibility = visibility;
-    });
+    this.updateVisibility();
   }
 
   ngAfterViewChecked() {
+    this.updateVisibility();
+  }
+
+  updateVisibility() {
     this.homeJSON.forEach(function(roomJSON, i) {
       var roomID = roomJSON.room + "Sound";
       var visibility = roomJSON.presence > 0 ? 'visible': 'hidden';
