@@ -12,6 +12,10 @@
    
    ```/home/pi/FollowingMeRadio/rdopresence/raspberry-server/server.js```
 
+## Circuito do sensor ultrasonico
+
+![Circuito do sensor ultrasonico](https://user-images.githubusercontent.com/7031566/29665992-e6616d90-88ac-11e7-9a0f-457249b6a5aa.png)
+
 ## FOTA com arduino
 
 1. Localize a ferramenta esptool, no MAC OS X o caminho é o seguinte:
