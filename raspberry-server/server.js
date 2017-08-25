@@ -31,7 +31,7 @@ var homeJSON = [
 	},
 	{
 	"room": "livingroom",
-	"mac": ["5C:CF:7F:8F:77:E4", "5C:CF:7F:8F:6D:7C"],
+	"mac": ["5C:CF:7F:8F:77:E4", "5C:CF:7F:8F:74"],
 	"presence": 0
 	},
 	{
@@ -110,7 +110,7 @@ app.post('/api/sensor',function (req, res) {
 		homeJSON.forEach(function(roomJSON, i) {
 			var roomMacArray = roomJSON.mac;
 			for (var j = 0; j < roomMacArray.length; j++) {
-				if (deviceMAC == roomMacArray[j] && garageJSON.presence == 1) {
+				if (deviceMAC == roomMacArray[j]) {
 					roomJSON.presence = value;
 					gpio[i].write(value, function() {
 					//console.log('Post from the HuzzaFeather with MAC '+deviceMAC+ ' presence detected ' + value)
