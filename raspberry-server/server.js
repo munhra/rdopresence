@@ -1,4 +1,5 @@
 //Dependencies
+require('log-timestamp');
 var express = require('express');
 var bodyParser = require('body-parser');
 var onoff = require('onoff');
@@ -31,7 +32,7 @@ var homeJSON = [
 	},
 	{
 	"room": "livingroom",
-	"mac": ["5C:CF:7F:8F:77:E4", "5C:CF:7F:8F:74"],
+	"mac": ["5C:CF:7F:8F:77:E4", "5C:CF:7F:8F:74:CF"],
 	"presence": 0
 	},
 	{
