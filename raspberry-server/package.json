@@ -15,6 +15,7 @@
     "console-stamp": "^0.2.5",
     "express": "^4.15.4",
     "http": "0.0.0",
+    "log-timestamp": "^0.1.2",
     "onoff": "^1.1.5",
     "socket.io": "^2.0.3",
     "url": "^0.11.0"

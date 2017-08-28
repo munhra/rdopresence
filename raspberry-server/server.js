@@ -1,4 +1,5 @@
 //Dependencies
+require('log-timestamp');
 var express = require('express');
 var bodyParser = require('body-parser');
 var onoff = require('onoff');
@@ -31,7 +32,7 @@ var homeJSON = [
 	},
 	{
 	"room": "livingroom",
-	"mac": ["5C:CF:7F:8F:77:E4", "5C:CF:7F:8F:6D:7C"],
+	"mac": ["5C:CF:7F:8F:77:E4", "5C:CF:7F:8F:74:CF"],
 	"presence": 0
 	},
 	{
@@ -65,6 +66,22 @@ app.get('/', function(req, res) {
 	res.send(homeJSON);
 });
 
+app.post('/api/sensor/debug',function (req, res) {
+        var url_parts = url.parse(req.url, true);
+        var query = url_parts.query;
+        var deviceMAC = query.mac;
+        var ip = query.ip;
+        var roomName = query.roomName; 
+	var maxdistance = query.maxdistance;
+	var mindistance = query.mindistance;
+	var averagedistance = query.averagedistance;
+
+
+        console.log('DEBUG  from the HuzzaFeather ip '+ip+' with MAC '+deviceMAC+' room '+roomName+ ' minDistance '
+			+mindistance+' maxDistance '+maxdistance+' averageDistance '+averagedistance);
+        res.send('200');
+});
+
 //Receive a register post from a new sensor and save mac address
 app.post('/api/sensor/register',function (req, res) {
 	var url_parts = url.parse(req.url, true);
@@ -72,7 +89,7 @@ app.post('/api/sensor/register',function (req, res) {
 	var deviceMAC = query.mac;
 	var ip = query.ip;
 	var roomName = query.roomName;
-
+	
 	homeJSON.forEach(function(roomJSON, i) {
 		if (roomName == roomJSON.room) {
 			roomJSON.mac = arrayUnion(roomJSON.mac, deviceMAC);
@@ -110,7 +127,7 @@ app.post('/api/sensor',function (req, res) {
 		homeJSON.forEach(function(roomJSON, i) {
 			var roomMacArray = roomJSON.mac;
 			for (var j = 0; j < roomMacArray.length; j++) {
-				if (deviceMAC == roomMacArray[j] && garageJSON.presence == 1) {
+				if (deviceMAC == roomMacArray[j]) {
 					roomJSON.presence = value;
 					gpio[i].write(value, function() {
 					//console.log('Post from the HuzzaFeather with MAC '+deviceMAC+ ' presence detected ' + value)
