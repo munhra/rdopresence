@@ -66,6 +66,22 @@ app.get('/', function(req, res) {
 	res.send(homeJSON);
 });
 
+app.post('/api/sensor/debug',function (req, res) {
+        var url_parts = url.parse(req.url, true);
+        var query = url_parts.query;
+        var deviceMAC = query.mac;
+        var ip = query.ip;
+        var roomName = query.roomName; 
+	var maxdistance = query.maxdistance;
+	var mindistance = query.mindistance;
+	var averagedistance = query.averagedistance;
+
+
+        console.log('DEBUG  from the HuzzaFeather ip '+ip+' with MAC '+deviceMAC+' room '+roomName+ ' minDistance '
+			+mindistance+' maxDistance '+maxdistance+' averageDistance '+averagedistance);
+        res.send('200');
+});
+
 //Receive a register post from a new sensor and save mac address
 app.post('/api/sensor/register',function (req, res) {
 	var url_parts = url.parse(req.url, true);
@@ -73,7 +89,7 @@ app.post('/api/sensor/register',function (req, res) {
 	var deviceMAC = query.mac;
 	var ip = query.ip;
 	var roomName = query.roomName;
-
+	
 	homeJSON.forEach(function(roomJSON, i) {
 		if (roomName == roomJSON.room) {
 			roomJSON.mac = arrayUnion(roomJSON.mac, deviceMAC);
