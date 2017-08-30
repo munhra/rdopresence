@@ -75,10 +75,10 @@ app.post('/api/sensor/debug',function (req, res) {
 	var maxdistance = query.maxdistance;
 	var mindistance = query.mindistance;
 	var averagedistance = query.averagedistance;
-
+	var averagediameter = query.averagediameter;
 
         console.log('DEBUG  from the HuzzaFeather ip '+ip+' with MAC '+deviceMAC+' room '+roomName+ ' minDistance '
-			+mindistance+' maxDistance '+maxdistance+' averageDistance '+averagedistance);
+			+mindistance+' maxDistance '+maxdistance+' averageDistance '+averagedistance+' averageDiameter '+averagediameter);
         res.send('200');
 });
 
