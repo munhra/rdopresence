@@ -66,6 +66,11 @@ app.get('/', function(req, res) {
 	res.send(homeJSON);
 });
 
+//Get garageJSON
+app.get('/garage', function(req, res) {
+        res.send(garageJSON);
+});
+
 app.post('/api/sensor/debug',function (req, res) {
         var url_parts = url.parse(req.url, true);
         var query = url_parts.query;
