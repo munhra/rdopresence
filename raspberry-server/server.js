@@ -47,6 +47,9 @@ var homeJSON = [
 	}
 ]
 
+// doorIp ESP
+var doorIp = "";
+
 //Outdoor JSON - Front door sensor
 garageJSON = {
 	"room": "garage",
@@ -69,6 +72,20 @@ app.get('/', function(req, res) {
 //Get garageJSON
 app.get('/garage', function(req, res) {
         res.send(garageJSON);
+});
+
+//Get doorIp
+app.get('/ipDoor',function(req, res){
+	res.send(doorIp);
+});
+
+// Receive a resgister post from the ESP with the IP
+app.post('/api/Door/ip', function(req, res){
+	var url_parts = url.parse(req.url, true);
+	var query =url_parts.query;
+	doorIp = query.ipDoor;
+	console.log("ESP IP: "+ doorIp);
+	res.send('200');
 });
 
 app.post('/api/sensor/debug',function (req, res) {
