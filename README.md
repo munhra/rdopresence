@@ -12,6 +12,11 @@
    
    ```/home/pi/FollowingMeRadio/rdopresence/raspberry-server/server.js```
 
+- Acessar remotamente o Raspberry do Linux/MAC, usurio pi senha FollowMeRadio
+
+   ``` open afp://192.168.42.1 ```
+
+
 ## Circuito do sensor ultrasonico
 
 ![Circuito do sensor ultrasonico](https://user-images.githubusercontent.com/7031566/29665992-e6616d90-88ac-11e7-9a0f-457249b6a5aa.png)
