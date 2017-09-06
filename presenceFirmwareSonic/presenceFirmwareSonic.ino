@@ -12,47 +12,55 @@ const char* host = "192.168.42.1";
 //sensor sonic
 #define TRIGGER 12
 #define ECHO    13
+#define DIAMETER_COEFICIENT 0.1317
 
-//#define WALL_DISTANCE_LOW 150 //Kitchen 
-//#define WALL_DISTANCE_HIGH 199 //Kitchen 
+//#define SENSOR_ERROR_DISTANCE 1000 //kitchen 2 Test
+//#define WALL_DISTANCE_LOW 88 //Kitchen 245 no false postive during 30 min
+//#define WALL_DISTANCE_HIGH 300 //Kitchen  199
 
-//#define WALL_DISTANCE 90 //bedroom
-//#define WALL_DISTANCE_LOW 89 //bedroom
-//#define WALL_DISTANCE_HIGH 98 //bedroom
+#define SENSOR_ERROR_DISTANCE 1000 //kitchen 
+#define WALL_DISTANCE_LOW 70 //Kitchen 245 no false postive during 30 min
+#define WALL_DISTANCE_HIGH 500 //Kitchen  199
 
-//define WALL_DISTANCE 110 //livingroom left
-//#define WALL_DISTANCE_LOW 170 //livingroom right was 145
-//#define WALL_DISTANCE_HIGH 175 //livingroom right was 145
+//#define SENSOR_ERROR_DISTANCE 4000 //bedroom
+//#define WALL_DISTANCE_LOW 75 //bedroom
+//#define WALL_DISTANCE_HIGH 120 //bedroom
 
-//define WALL_DISTANCE 110 //livingroom right
-#define WALL_DISTANCE_LOW 170 //livingroom right was 145
-#define WALL_DISTANCE_HIGH 180 //livingroom right was 145
+//#define SENSOR_ERROR_DISTANCE 4000 //livingroom left 
+//#define WALL_DISTANCE_LOW 55 //livingroom left was 145
+//#define WALL_DISTANCE_HIGH 130 //livingroom left was 145
+
+//#define SENSOR_ERROR_DISTANCE 4000
+//#define WALL_DISTANCE_LOW 55 //livingroom right was 70
+//#define WALL_DISTANCE_HIGH 350 //livingroom right was 145
 
 //old firmware working
 //#define WALL_DISTANCE 60 //bathroom
 
 //#define WALL_ERROR_ADJUST 150 //delay removal test
 //#define FOTA_HOST_NAME "FutureHousePresenceBedroom" //192.168.42.19
-#define FOTA_HOST_NAME "FutureHousePresenceLivingRight"
+//#define FOTA_HOST_NAME "FutureHousePresenceLivingRight"
 //#define FOTA_HOST_NAME "FutureHousePresenceLivingLeft"
-//#define FOTA_HOST_NAME "FutureHousePresenceKitchen"
+#define FOTA_HOST_NAME "FutureHousePresenceKitchen"
 //#define FOTA_HOST_NAME "FutureHousePresenceBathroom"
+//#define FOTA_HOST_NAME "FutureHousePresenceKitchenTest"
 
 boolean sendPresenceDetected= true;
 boolean sendPresenceNotDetected = true;
 
-//String roomName = "kitchen";
+String roomName = "kitchen";
 //String roomName = "bedroom";
-String roomName = "livingroom";
+//String roomName = "livingroom";
 //String roomName = "bathroom";
 
 //Calibration measures
-int arraySize = 100;
+int arraySize = 50; //100
 int standBydistanceArray[100];
 float standByAverageDistance = 0;
 int standByMaxDistance = 0;
 int standByMinDistance = 100000;
 int standByDistanceIndex = 0;
+float averageDiameter = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -134,12 +142,13 @@ void controlSimpleSonicState() {
   Serial.println(distance);
   registerStandByDistance(distance);
 
-  if ((distance < WALL_DISTANCE_LOW) || (distance > WALL_DISTANCE_HIGH)){
+  if (((distance < WALL_DISTANCE_LOW) || (distance > WALL_DISTANCE_HIGH)) && (distance < SENSOR_ERROR_DISTANCE)){
     
     if (sendPresenceDetected) {
       Serial.println("send post detected");
       calculateStandByMeasures();
       sendDetectionPost("1");
+      sendDebugPost("0");
       sendPresenceDetected = false;
       sendPresenceNotDetected = true;
     }
@@ -149,11 +158,12 @@ void controlSimpleSonicState() {
     if (sendPresenceNotDetected) {
       Serial.println("send post not detected");
       sendDetectionPost("0");
+      sendDebugPost("0");
       sendPresenceDetected = true;
       sendPresenceNotDetected = false;
     }
   }
-  delay(100);
+  delay(100); // 100 for all other rooms and 300 for kitchen
 }
 
 void sendRegister()
@@ -188,7 +198,8 @@ void sendDebugPost(String detected) {
   String url = "/api/sensor/debug?roomName="+roomName+"&mac="+getMacAddress()+"&ip="+ipToString(WiFi.localIP())+"&presence="+detected+
                "&maxdistance="+String(standByMaxDistance)+
                "&mindistance="+String(standByMinDistance)+
-               "&averagedistance="+String(standByAverageDistance);            
+               "&averagedistance="+String(standByAverageDistance)+
+               "&averagediameter="+String(averageDiameter);            
   Serial.print("Requesting URL: ");
   Serial.println(url);
   client.print(String("POST ") + url + " HTTP/1.1\r\n" +
@@ -227,13 +238,14 @@ void resetStandByMeasures() {
   standByMinDistance = 100000;
   standByDistanceIndex = 0;
   standByAverageDistance = 0;
+  averageDiameter = 0;
 }
 
 void registerStandByDistance(int distance) {
   if (standBydistanceArray[arraySize - 1] != 0) {
     calculateStandByMeasures();
     if (DEBUG) {
-      sendDebugPost("0");  
+      //sendDebugPost("0");
     }
     resetStandByMeasures();
   }else{
@@ -260,11 +272,13 @@ void calculateStandByMeasures()
       }
     }
     
-    standByAverageDistance =  totalDistance / nonZeroesPositionCounter;    
+    standByAverageDistance =  totalDistance / nonZeroesPositionCounter;
+    averageDiameter = (standByAverageDistance * DIAMETER_COEFICIENT) * 2;
   
     Serial.println("calculateStandByMeasures last measures maxdistance "+String(standByMaxDistance));
     Serial.println("calculateStandByMeasures last measures mindistance "+String(standByMinDistance));
     Serial.println("calculateStandByMeasures last measures average "+String(standByAverageDistance,3));
+    Serial.println("calculateStandByMeasures last measures average "+String(averageDiameter,3));
 }
 
 String ipToString(IPAddress ip){
