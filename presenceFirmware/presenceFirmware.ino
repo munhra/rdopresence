@@ -9,7 +9,7 @@ const char* password = "FollowMeRadio";
 const char* host = "192.168.42.1";
 
 //sensor PIR
-int calibrationTime = 30;        
+int calibrationTime = 60;        
 boolean postPresenceOn = true;
 boolean postPresenceOff = true;
 

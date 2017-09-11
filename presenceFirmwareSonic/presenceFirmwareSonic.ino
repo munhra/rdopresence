@@ -19,8 +19,8 @@ const char* host = "192.168.42.1";
 //#define WALL_DISTANCE_HIGH 300 //Kitchen  199
 
 #define SENSOR_ERROR_DISTANCE 1000 //kitchen 
-#define WALL_DISTANCE_LOW 70 //Kitchen 245 no false postive during 30 min
-#define WALL_DISTANCE_HIGH 500 //Kitchen  199
+#define WALL_DISTANCE_LOW 30 //Kitchen 245 no false postive during 30 min
+#define WALL_DISTANCE_HIGH 1000 //Kitchen  199
 
 //#define SENSOR_ERROR_DISTANCE 4000 //bedroom
 //#define WALL_DISTANCE_LOW 75 //bedroom
