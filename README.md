@@ -13,6 +13,38 @@ U4 (Ultrasonico)   | Sala Esquerda | 55                     | 130               
 IR1 (Infra RED)    | Cozinha       | -                      | -                       |5C:CF:7F:8F:74:F4
 R1 (REED Magnetico)| Garagem       | -                      | -                       |5C:CF:7F:8F:6E:83
 
+# Funcionamento do MVP (Minimum Value Product)
+
+- Restrição de apenas um usuário
+
+- Considerando o estado inicial da casa com a porta fechada o usuário então abre a porta, entra na sala e fecha a porta, nesse instante o som começa a tocar na **Sala**. Quando o usuário for detectado por um sensor o firmware do sensor irá enviar uma requisição POST para o servidor informando que o determinado sensor mudou de estado, como a solução é para apenas um usuário o servidor então irá mudar a presença para o comodo ao qual pertence o sensor que foi disparado e assim sucessivamente para cada um dos comodos.
+
+- Quando o usuário sair da casa ele deverá abrir a porta que se encontra fechada e ao sair fechar a porta para que o servidor entenda que não existe mais ninguém na casa.
+
+# Utilização dos sensores
+
+### Ultra Sônico
+
+- O firmware do sensor ultranico fica medindo continuamente a distancia onde foi posicionado e quando o usuário cruza a linha de medição a distancia da medida ocila geralmente para um valor menor. Se este valor for menor que o valor da constante WALL_DISTANCE_LOW ou maior que o valor da constante WALL_DISTANCE_HIGH então o firmware manda um POST para o servidor informando que o usuário foi detectado.
+
+- **Problemas**
+  - Dependendo da distancia a ocilação cresce de maneira que fica impossível definir um intervalo seguro de detecção do usuário e ai temos a geração de falsos positivos. Distancias seguras para o uso deste tipo de sensor para essa aplicação são de no máximo 2 metros.
+
+### Infra RED
+
+- O sensor Infra RED foi utilizado apenas na cozinha, pois não foi possível a utilização do sensor ultrasonico, dada a ausência de uma linha reta de medição menor do que 2 metros.
+
+- **Problemas**
+  
+  - O sensor Infra RED utilizado possui um delay de no mínimo 3 segundos entre uma detecção e outra ou seja teremos uma espera de 3 segundos para que o usuário seja detectado na cozinha novamente após a primeira detecção.
+  
+  
+  - O sensor Infra RED gerou mais falsos positivos de detecção, a investigação foi feita durante 4 dias onde ninguem entrou no ambiente da casa, notamos que tais falsos positivos foram gerados apenas no periodo da manhã. Temos suspeitas de que os falsos positivos possam ter sido gerados pelo movimento de veículos pesados na região. 
+
+### REED Magnético
+
+- O sensor REED fica na porta e muda o estado na presença de um campo magnético, esse sensor foi utilizado na porta da garagem para a detecção de quando o usuário deixou a casa.
+
 ## Configuração da rede do raspberry
 
 - Usuário: pi e senha:FollowMeRadio para acessar o RaspBerry 
