@@ -4,14 +4,14 @@
 
 ![screen shot 2017-09-11 at 08 52 53](https://user-images.githubusercontent.com/7031566/30274248-f74bfc4a-96d2-11e7-8fb8-8df40ebdb87b.png)
 
-Sensor Ultrasonico | Comodo        | WALL_DISTANCE_LOW | WALL_DISTANCE_HIGH |MAC ADDRESS
------------------- | ------------- | ----------------- | ------------------ |-----------------
-U1                 | Quarto        | 75                | 120                |5C:CF:7F:D5:D0:35
-U2                 | Banheiro      | 60                | 60                 |5C:CF:7F:D5:D0:56
-U3                 | Sala Direita  | 70                | 145                |5C:CF:7F:8F:77:E4
-U4                 | Sala Esquerda | 55                | 130                |5C:CF:7F:8F:74:CF
-I1                 | Cozinha       | -                 | -                  |5C:CF:7F:8F:74:F4
-R1                 | Garagem       | -                 | -                  |5C:CF:7F:8F:6E:83
+Sensores           | Comodo        | WALL_DISTANCE_LOW (cm) | WALL_DISTANCE_HIGH (cm) |MAC ADDRESS
+------------------ | ------------- | ---------------------- | ----------------------- |-----------------
+U1 (Ultrasonico)   | Quarto        | 75                     | 120                     |5C:CF:7F:D5:D0:35
+U2 (Ultrasonico)   | Banheiro      | 60                     | 60                      |5C:CF:7F:D5:D0:56
+U3 (Ultrasonico)   | Sala Direita  | 70                     | 145                     |5C:CF:7F:8F:77:E4
+U4 (Ultrasonico)   | Sala Esquerda | 55                     | 130                     |5C:CF:7F:8F:74:CF
+IR1 (Infra RED)    | Cozinha       | -                      | -                       |5C:CF:7F:8F:74:F4
+R1 (REED Magnetico)| Garagem       | -                      | -                       |5C:CF:7F:8F:6E:83
 
 ## Configuração da rede do raspberry
 
