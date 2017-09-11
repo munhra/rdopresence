@@ -38,7 +38,6 @@ R1 (REED Magnetico)| Garagem       | -                      | -       
   
   - O sensor Infra RED utilizado possui um delay de no mínimo 3 segundos entre uma detecção e outra ou seja teremos uma espera de 3 segundos para que o usuário seja detectado na cozinha novamente após a primeira detecção.
   
-  
   - O sensor Infra RED gerou mais falsos positivos de detecção, a investigação foi feita durante 4 dias onde ninguem entrou no ambiente da casa, notamos que tais falsos positivos foram gerados apenas no periodo da manhã. Temos suspeitas de que os falsos positivos possam ter sido gerados pelo movimento de veículos pesados na região. 
 
 ### REED Magnético
