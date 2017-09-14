@@ -9,7 +9,7 @@ const char* password = "FollowMeRadio";
 const char* host = "192.168.42.1";
 
 //sensor PIR
-int calibrationTime = 30;        
+int calibrationTime = 60;        
 boolean postPresenceOn = true;
 boolean postPresenceOff = true;
 
@@ -17,7 +17,9 @@ int pirPin = 13;    //the digital pin connected to the PIR sensor's output
 int ledPin = 0;
 int pirValue = 0;
 
-String roomName = "livingroom";
+#define FOTA_HOST_NAME "FutureHousePresenceKitchenTest"
+
+String roomName = "kitchen";
 
 void setup() {
   Serial.begin(115200);
@@ -67,7 +69,7 @@ void setupPir() {
 }
 
 void setupFOTA() {
-  ArduinoOTA.setHostname("munhraESP8266");     
+  ArduinoOTA.setHostname(FOTA_HOST_NAME);     
   ArduinoOTA.onStart([]() {
     Serial.println("Start");
   });
