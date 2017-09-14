@@ -11,7 +11,7 @@ U2 (Ultrasonico)   | Banheiro      | 60                     | 60                
 U3 (Ultrasonico)   | Sala Direita  | 70                     | 145                     |5C:CF:7F:8F:74:CF
 U4 (Ultrasonico)   | Sala Esquerda | 55                     | 130                     |5C:CF:7F:8F:77:E4
 IR1 (Infra RED)    | Cozinha       | -                      | -                       |5C:CF:7F:8F:74:F4
-R1 (REED Magnetico)| Garagem       | -                      | -                       |5C:CF:7F:8F:6E:83
+R1 (REED Magnetico)| Garagem       | -                      | -                       |5C:CF:7F:0D:D9:4F
 
 # Funcionamento do MVP (Minimum Value Product)
 
