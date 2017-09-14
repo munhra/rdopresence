@@ -59,3 +59,4 @@ typings/
 
 #ignore mac DS_Store
 .DS_Store
+.AppleDouble

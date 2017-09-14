@@ -27,7 +27,7 @@ var gpio = [
 var homeJSON = [
 	{
 	"room": "kitchen",
-	"mac": ["5C:CF:7F:8F:72:BE"],
+	"mac": ["5C:CF:7F:8F:74:F4"],
 	"presence": 0
 	},
 	{
@@ -53,7 +53,7 @@ var doorIp = "";
 //Outdoor JSON - Front door sensor
 garageJSON = {
 	"room": "garage",
-	"mac": ["5C:CF:7F:8F:6E:83"],
+	"mac": ["5C:CF:7F:0D:D9:4F"],
 	"presence": 0
 }
 
