@@ -8,8 +8,8 @@ Sensores           | Comodo        | WALL_DISTANCE_LOW (cm) | WALL_DISTANCE_H
 ------------------ | ------------- | ---------------------- | ----------------------- |-----------------
 U1 (Ultrasonico)   | Quarto        | 75                     | 120                     |5C:CF:7F:D5:D0:35
 U2 (Ultrasonico)   | Banheiro      | 60                     | 60                      |5C:CF:7F:D5:D0:56
-U3 (Ultrasonico)   | Sala Direita  | 70                     | 145                     |5C:CF:7F:8F:77:E4
-U4 (Ultrasonico)   | Sala Esquerda | 55                     | 130                     |5C:CF:7F:8F:74:CF
+U3 (Ultrasonico)   | Sala Direita  | 70                     | 145                     |5C:CF:7F:8F:74:CF
+U4 (Ultrasonico)   | Sala Esquerda | 55                     | 130                     |5C:CF:7F:8F:77:E4
 IR1 (Infra RED)    | Cozinha       | -                      | -                       |5C:CF:7F:8F:74:F4
 R1 (REED Magnetico)| Garagem       | -                      | -                       |5C:CF:7F:8F:6E:83
 
