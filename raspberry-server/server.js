@@ -9,7 +9,7 @@ var io = require('socket.io')(http);
 var arrayUnion = require('array-union');
 
 var app = express();
-var Gpio = onoff.Gpio;
+var Gpio = onoff.Gpio; 
 
 // Gpio pins that communicate with sound attenuator
 var SDI   = new Gpio(17, 'out');//physical pin 11. Attenuator Data pin
@@ -27,7 +27,7 @@ var gpio = [
 var homeJSON = [
 	{
 	"room": "kitchen",
-	"mac": ["5C:CF:7F:8F:74:F4"],
+	"mac": ["5C:CF:7F:8F:74:F4","5C:CF:7F:8F:72:BE"],
 	"presence": 0
 	},
 	{
@@ -46,6 +46,10 @@ var homeJSON = [
 	"presence": 0
 	}
 ]
+
+// kitchen
+var kitchen1 = false;
+var kitchen2 = false;
 
 // doorIp ESP
 var doorIp = "";
@@ -142,48 +146,116 @@ app.post('/api/sensor',function (req, res) {
 	var roomName = query.roomName;
 	var value = presence > 0 ? 1 : 0;
 
-	console.log('Update presence from the HuzzaFeather ip '+ip+' with MAC '+deviceMAC+' room '+roomName+' presence detected ' + presence);
-	
-	if (value == 1) {
+	if(deviceMAC=="5C:CF:7F:8F:74:F4" || deviceMAC== "5C:CF:7F:8F:72:BE"){
+		if(value == 1){
+			switch(deviceMAC){
+				case '5C:CF:7F:8F:74:F4':
+				kitchen1 = true;
+				console.log("Kitchen1");
+				break;
 
-		homeJSON.forEach(function(roomJSON, i) {
-			var roomMacArray = roomJSON.mac;
-			for (var j = 0; j < roomMacArray.length; j++) {
-				if (deviceMAC == roomMacArray[j]) {
-					roomJSON.presence = value;
-					gpio[i].write(value, function() {
-					//console.log('Post from the HuzzaFeather with MAC '+deviceMAC+ ' presence detected ' + value)
-					});
-					break;
-				} else {
-					roomJSON.presence = 0;
-					gpio[i].write(0, function() {});
-				}
-			}
-		})
-
-		for (var i = 0; i < garageJSON.mac.length; i++) {
-			if (deviceMAC == garageJSON.mac[i]) {
-				if (garageJSON.presence == 0) {
-					homeJSON[1].presence = 1;
-					garageJSON.presence = 1;
-				} else {
-					garageJSON.presence = 0;
-				}
+				case '5C:CF:7F:8F:72:BE':
+				kitchen2 = true;
+				console.log("Kitchen2");
+				break;
 			}
 		}
 
-		io.emit('message', homeJSON);
+		kitchenTimer(query);
+	}
+	else{
+		
+		console.log('Update presence from the HuzzaFeather ip '+ip+' with MAC '+deviceMAC+' room '+roomName+' presence detected ' + presence);
+
+		if (value == 1) {
 	
-		if (deviceMAC == "5C:CF:7F:8F:77:E4") {
-			RCLK.write(0, function() {});
-			hc595_in(value);
-			sleep(1).then(hc595_out());
+			homeJSON.forEach(function(roomJSON, i) {
+				var roomMacArray = roomJSON.mac;
+				for (var j = 0; j < roomMacArray.length; j++) {
+					if (deviceMAC == roomMacArray[j]) {
+						roomJSON.presence = value;
+						gpio[i].write(value, function() {
+						//console.log('Post from the HuzzaFeather with MAC '+deviceMAC+ ' presence detected ' + value)
+						});
+						break;
+					} else {
+						roomJSON.presence = 0;
+						gpio[i].write(0, function() {});
+					}
+				}
+			})
+	
+			for (var i = 0; i < garageJSON.mac.length; i++) {
+				if (deviceMAC == garageJSON.mac[i]) {
+					if (garageJSON.presence == 0) {
+						homeJSON[1].presence = 1;
+						garageJSON.presence = 1;
+					} else {
+						garageJSON.presence = 0;
+					}
+				}
+			}
+	
+			io.emit('message', homeJSON);
+		
+			if (deviceMAC == "5C:CF:7F:8F:77:E4") {
+				RCLK.write(0, function() {});
+				hc595_in(value);
+				sleep(1).then(hc595_out());
+			}
 		}
 	}
 
+
 	res.send('200');
 });
+
+function kitchenTimer(vars){
+	setTimeout(function(){
+
+		if(kitchen1 == true && kitchen2 == true){
+			 var ip = vars.ip;
+			 var roomName = vars.roomName;
+			 var deviceMAC = vars.mac;
+			 var value = vars.presence > 0 ? 1 : 0;
+		
+			console.log('Update presence from the HuzzaFeather ip '+ip+' with MACs kicthen macs room '+roomName+' presence detected ' + value);
+			
+			homeJSON.forEach(function(roomJSON, i) {
+				var roomMacArray = roomJSON.mac;
+				for (var j = 0; j < roomMacArray.length; j++) {
+					if (deviceMAC == roomMacArray[j]) {
+						roomJSON.presence = value;
+						gpio[j].write(value, function() {
+						//console.log('Post from the HuzzaFeather with MAC '+deviceMAC+ ' presence detected ' + value)
+						});
+						break;
+					} else {
+						roomJSON.presence = 0;
+						gpio[j].write(0, function() {});
+					}
+				}
+
+				for (var i = 0; i < garageJSON.mac.length; i++) {
+					if (deviceMAC == garageJSON.mac[i]) {
+						if (garageJSON.presence == 0) {
+							homeJSON[1].presence = 1;
+							garageJSON.presence = 1;
+						} else {
+							garageJSON.presence = 0;
+						}
+					}
+				}
+
+				io.emit('message', homeJSON);
+			})
+		}
+		// else is False positive
+	
+		kitchen1 = false;
+		kitchen2 = false;
+	},3000);
+}
 
 function sleep (time) {
 	return new Promise((resolve) => setTimeout(resolve, time));
