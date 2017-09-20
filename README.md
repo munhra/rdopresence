@@ -158,3 +158,10 @@ python espota.py  -i 192.168.2.25 -p 8266 -f /var/folders/pl/jqh4v7s54gl766rjxnv
 * Especificação do sensor PIR SR501
   
   * https://www.mpja.com/download/31227sc.pdf
+
+* Possível solução do PIR para detectar direção no movimento
+
+  * https://learn.adafruit.com/pir-passive-infrared-proximity-motion-sensor?view=all
+  * https://cdn-learn.adafruit.com/assets/assets/000/010/134/original/RE200B.pdf
+  * https://cdn-learn.adafruit.com/assets/assets/000/010/133/original/BISS0001.pdf
+  
