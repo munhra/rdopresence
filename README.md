@@ -165,3 +165,6 @@ python espota.py  -i 192.168.2.25 -p 8266 -f /var/folders/pl/jqh4v7s54gl766rjxnv
   * https://cdn-learn.adafruit.com/assets/assets/000/010/134/original/RE200B.pdf
   * https://cdn-learn.adafruit.com/assets/assets/000/010/133/original/BISS0001.pdf
   
+* Outro tipo de sensor que podiamos estudar
+
+  * https://www.filipeflop.com/produto/sensor-de-obstaculo-infravermelho-ir/
