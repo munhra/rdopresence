@@ -151,16 +151,15 @@ app.post('/api/sensor',function (req, res) {
 			switch(deviceMAC){
 				case '5C:CF:7F:8F:74:F4':
 				kitchen1 = true;
-				console.log("Kitchen1");
+				console.log("Kitchen1 deteted");
 				break;
 
 				case '5C:CF:7F:8F:72:BE':
 				kitchen2 = true;
-				console.log("Kitchen2");
+				console.log("Kitchen2 detected");
 				break;
 			}
 		}
-
 		kitchenTimer(query);
 	}
 	else{
@@ -254,7 +253,7 @@ function kitchenTimer(vars){
 	
 		kitchen1 = false;
 		kitchen2 = false;
-	},3000);
+	},1000);
 }
 
 function sleep (time) {
