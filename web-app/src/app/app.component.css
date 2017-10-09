@@ -3,3 +3,7 @@
     width: 15%;
     margin: 4%;
 }
+
+.app-component{
+    background: linear-gradient(to left, #4286f4 , #2c58a0); /* Standard syntax */  
+}

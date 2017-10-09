@@ -4,6 +4,7 @@ import {AppService} from "./app.service"
 import * as express from "express";
 import * as io from 'socket.io-client';
 import 'rxjs/Rx';
+import { HeaderFmrComponent } from './header-fmr/header-fmr.component';
 
 @Component({
   selector: 'app-root',
