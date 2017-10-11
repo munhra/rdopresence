@@ -1,4 +1,4 @@
-import { AfterViewChecked, ElementRef, Component, OnInit } from '@angular/core';
+import {AfterContentChecked, Component, OnInit } from '@angular/core';
 import {AppService} from '../app.service'
 
 @Component({
@@ -6,8 +6,9 @@ import {AppService} from '../app.service'
   templateUrl: './house-state-fmr.component.html',
   styleUrls: ['./house-state-fmr.component.css']
 })
-export class HouseStateFMRComponent implements OnInit, AfterViewChecked {
+export class HouseStateFMRComponent implements OnInit, AfterContentChecked {
   homeJSON: any[] = [];
+  count: number = 0 ;
   houseRoom: string = "../../assets/home_house.png";
 
   constructor(private appMessage: AppService) {
@@ -22,18 +23,26 @@ export class HouseStateFMRComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(){
-    this.toogleImages();
+   
   }
 
+  ngAfterContentChecked(){
+    this.updateHouse();
+  }
 
-  toogleImages(){
+  updateHouse(){
     var room;
     var image
     this.homeJSON.forEach(roomJson=>{
        image = roomJson.room +'_house.png';
        this.houseRoom = roomJson.presence >0 ? "../../assets/"+image: this.houseRoom;
-      console.log(this.houseRoom);
+        if(roomJson.presence>0) {
+          this.count++;
+        }
     });
-    
+    if(this.count==0){
+      this.houseRoom = "../../assets/home_house.png";
+    }
+    this.count=0;
   }
 }
