@@ -27,7 +27,7 @@ export class AppComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    this.updateVisibility();
+   // this.updateVisibility();
   }
 
   updateVisibility() {
