@@ -1,9 +1,18 @@
-.app-component img {
-    position:relative;
-    width: 15%;
-    margin: 4%;
-}
-
 .app-component{
     background: linear-gradient(to left, #716BE2 , #9096E4); /* Standard syntax */  
+}
+
+app-header-fmr{
+    margin-top: 2%;
+    margin-bottom: 0;
+    margin-left: 40%;
+}
+
+app-rooms-state-fmr{
+    margin-left: 13%;
+}
+
+app-house-state-fmr{
+    margin-top: 6%;
+    margin-left: 10%;
 }
