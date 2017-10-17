@@ -10,6 +10,7 @@ export class HouseStateFMRComponent implements OnInit, AfterContentChecked {
   homeJSON: any[] = [];
   count: number = 0 ;
   houseRoom: string = "../../assets/home_house.png";
+  houseMobile: string = "../../assets/home_houseMobile.png";
 
   constructor(private appMessage: AppService) {
   this.appMessage.getJSON().subscribe(
@@ -32,16 +33,20 @@ export class HouseStateFMRComponent implements OnInit, AfterContentChecked {
 
   updateHouse(){
     var room;
-    var image
+    var imageTablet;
+    var imageMobile;
     this.homeJSON.forEach(roomJson=>{
-       image = roomJson.room +'_house.png';
-       this.houseRoom = roomJson.presence >0 ? "../../assets/"+image: this.houseRoom;
+      imageTablet = roomJson.room + '_house.png';
+      imageMobile = roomJson.room + '_houseMobile.png';
+       this.houseRoom = roomJson.presence >0 ? "../../assets/"+imageTablet: this.houseRoom;
+       this.houseMobile = roomJson.presence >0 ? "../../assets/"+imageTablet: this.houseMobile;
         if(roomJson.presence>0) {
           this.count++;
         }
     });
     if(this.count==0){
       this.houseRoom = "../../assets/home_house.png";
+      this.houseMobile = "../../assets/home_houseMobile.png";
     }
     this.count=0;
   }

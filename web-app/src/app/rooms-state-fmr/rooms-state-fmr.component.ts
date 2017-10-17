@@ -1,5 +1,5 @@
 import {AfterContentChecked, Component, OnInit } from '@angular/core';
-import {AppService} from '../app.service'
+import { AppService } from '../app.service'
 
 @Component({
   selector: 'app-rooms-state-fmr',
