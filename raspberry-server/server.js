@@ -50,6 +50,7 @@ var homeJSON = [
 // kitchen
 var kitchen1 = false;
 var kitchen2 = false;
+var kitchenUpdate = false;
 
 // doorIp ESP
 var doorIp = "";
@@ -159,15 +160,17 @@ app.post('/api/sensor',function (req, res) {
 				console.log("Kitchen2 detected");
 				break;
 			}
+			kitchenTimer(query);
 		}
-		kitchenTimer(query);
+		else{
+		}
 	}
 	else{
 		
 		console.log('Update presence from the HuzzaFeather ip '+ip+' with MAC '+deviceMAC+' room '+roomName+' presence detected ' + presence);
 
 		if (value == 1) {
-	
+	kitchenUpdate = false;
 			homeJSON.forEach(function(roomJSON, i) {
 				var roomMacArray = roomJSON.mac;
 				for (var j = 0; j < roomMacArray.length; j++) {
@@ -219,6 +222,7 @@ function kitchenTimer(vars){
 			 var roomName = vars.roomName;
 			 var deviceMAC = vars.mac;
 			 var value = vars.presence > 0 ? 1 : 0;
+			kitchenUpdate = vars.presence > 0;
 		
 			console.log('Update presence from the HuzzaFeather ip '+ip+' with MACs kicthen macs room '+roomName+' presence detected ' + value);
 			
@@ -236,6 +240,7 @@ function kitchenTimer(vars){
 						gpio[j].write(0, function() {});
 					}
 				}
+			})
 
 				for (var i = 0; i < garageJSON.mac.length; i++) {
 					if (deviceMAC == garageJSON.mac[i]) {
@@ -248,14 +253,15 @@ function kitchenTimer(vars){
 					}
 				}
 
+				if(kitchenUpdate==true)
 				io.emit('message', homeJSON);
-			})
+			
 		}
 		// else is False positive
 		kitchen1 = false;
 		kitchen2 = false;
 		
-	},1000);
+	},1500);
 }
 
 function sleep (time) {
