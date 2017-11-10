@@ -16,7 +16,7 @@ export class AppService {
     this._headers = new Headers();
     this._headers.append('Content-Type', 'application/json');
     
-    this._url = "http://192.168.42.1:3001/";
+    this._url = "http://192.168.42.2:3001/";
   }
 
   public getJSON(): Observable<any[]> {

@@ -5,6 +5,12 @@ img{
 
 #houseTablet{
     display: block;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 15%;
+    bottom: 0;
 }
 #houseMobile{
     display: none;
@@ -16,6 +22,6 @@ img{
     }
     #houseMobile{
         display: block;
-        width: 85%;
+        width: 93%;
     }
 }
