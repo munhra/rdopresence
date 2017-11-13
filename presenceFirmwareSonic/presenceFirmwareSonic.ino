@@ -3,9 +3,9 @@
 #include <ESP8266mDNS.h>
 
 //wifi
-const char* ssid     = "FollowMe-Pi3";
-const char* password = "FollowMeRadio";
-const char* host = "192.168.42.1";
+const char* ssid     = "Future-House-Wifi";
+const char* password = "gogogofti";
+const char* host = "192.168.42.2";
 
 #define DEBUG true
 
@@ -15,43 +15,49 @@ const char* host = "192.168.42.1";
 #define DIAMETER_COEFICIENT 0.1317
 
 //#define SENSOR_ERROR_DISTANCE 1000 //kitchen 2 Test
-//#define WALL_DISTANCE_LOW 88 //Kitchen 245 no false postive during 30 min
-//#define WALL_DISTANCE_HIGH 300 //Kitchen  199
+//#define WALL_DISTANCE_LOW 88       //Kitchen 245 no false postive during 30 min
+//#define WALL_DISTANCE_HIGH 300     //Kitchen  199
 
-#define SENSOR_ERROR_DISTANCE 1000 //kitchen 
-#define WALL_DISTANCE_LOW 30 //Kitchen 245 no false postive during 30 min
-#define WALL_DISTANCE_HIGH 1000 //Kitchen  199
+//#define SENSOR_ERROR_DISTANCE 1000 //kitchen 
+//#define WALL_DISTANCE_LOW 30       //Kitchen 245 no false postive during 30 min
+//#define WALL_DISTANCE_HIGH 1000    //Kitchen  199
 
-//#define SENSOR_ERROR_DISTANCE 4000 //bedroom
-//#define WALL_DISTANCE_LOW 75 //bedroom
-//#define WALL_DISTANCE_HIGH 120 //bedroom
+#define SENSOR_ERROR_DISTANCE 4000   //bedroom
+#define WALL_DISTANCE_LOW 75         //bedroom
+#define WALL_DISTANCE_HIGH 120       //bedroom
 
 //#define SENSOR_ERROR_DISTANCE 4000 //livingroom left 
-//#define WALL_DISTANCE_LOW 55 //livingroom left was 145
-//#define WALL_DISTANCE_HIGH 130 //livingroom left was 145
+//#define WALL_DISTANCE_LOW 55       //livingroom left was 145
+//#define WALL_DISTANCE_HIGH 130     //livingroom left was 145
 
 //#define SENSOR_ERROR_DISTANCE 4000
-//#define WALL_DISTANCE_LOW 55 //livingroom right was 70
-//#define WALL_DISTANCE_HIGH 350 //livingroom right was 145
+//#define WALL_DISTANCE_LOW 55       //livingroom right was 70
+//#define WALL_DISTANCE_HIGH 350     //livingroom right was 145
 
 //old firmware working
 //#define WALL_DISTANCE 60 //bathroom
 
+#define SENSOR_ERROR_DISTANCE 4000   //bathroom
+#define WALL_DISTANCE_LOW 60         //bathroom
+#define WALL_DISTANCE_HIGH 65        //bathroom
+
 //#define WALL_ERROR_ADJUST 150 //delay removal test
 //#define FOTA_HOST_NAME "FutureHousePresenceBedroom" //192.168.42.19
+#define FOTA_HOST_NAME "FutureHousePresenceBathroom"
 //#define FOTA_HOST_NAME "FutureHousePresenceLivingRight"
 //#define FOTA_HOST_NAME "FutureHousePresenceLivingLeft"
-#define FOTA_HOST_NAME "FutureHousePresenceKitchen"
+//#define FOTA_HOST_NAME "FutureHousePresenceKitchen"
 //#define FOTA_HOST_NAME "FutureHousePresenceBathroom"
 //#define FOTA_HOST_NAME "FutureHousePresenceKitchenTest"
 
 boolean sendPresenceDetected= true;
 boolean sendPresenceNotDetected = true;
 
-String roomName = "kitchen";
+//String roomName = "kitchen";
 //String roomName = "bedroom";
 //String roomName = "livingroom";
-//String roomName = "bathroom";
+String roomName = "bathroom";
+
 
 //Calibration measures
 int arraySize = 50; //100

@@ -4,9 +4,9 @@
 #include <ArduinoOTA.h>
 
 //wifi
-const char* ssid     = "FollowMe-Pi3";
-const char* password = "FollowMeRadio";
-const char* host = "192.168.42.1";
+const char* ssid     = "Future-House-Wifi";
+const char* password = "gogogofti";
+const char* host = "192.168.42.2";
 
 //sensor PIR
 int calibrationTime = 60;        
