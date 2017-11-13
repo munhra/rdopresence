@@ -12,16 +12,32 @@ var app = express();
 var Gpio = onoff.Gpio; 
 
 // Gpio pins that communicate with sound attenuator
-var SDI   = new Gpio(17, 'out');//physical pin 11. Attenuator Data pin
-var RCLK  = new Gpio(18, 'out');//physical pin 12. Attenuator Load pin
-var SRCLK = new Gpio(27, 'out');//physical pin 13. Attenuator Clock pin
+//var SDI   = new Gpio(17, 'out');//physical pin 11. Attenuator Data pin
+//var RCLK  = new Gpio(18, 'out');//physical pin 12. Attenuator Load pin
+//var SRCLK = new Gpio(27, 'out');//physical pin 13. Attenuator Clock pin
+
+var GPIO_KITCHEN = new Gpio(12, 'out');
+var GPIO_LIVING_ROOM = new Gpio(16, 'out');
+var GPIO_BATHROOM = new Gpio(20, 'out');
+var GPIO_BEDROOM = new Gpio(21, 'out');
+
+//var GPIO_KITCHEN_LED = new Gpio(5, 'out');
+//var GPIO_LIVING_ROOM_LED = new Gpio(6, 'out');
+//var GPIO_BATHROOM_LED = new Gpio(13, 'out');
+//var GPIO_BEDROOM_LED = new Gpio(19, 'out');
+
+var gpioRoomPins = [GPIO_KITCHEN, GPIO_LIVING_ROOM, GPIO_BATHROOM, GPIO_BEDROOM]; 
+//var gpioRoomLightPins = [GPIO_KITCHEN_LED, GPIO_LIVING_ROOM_LED, GPIO_BATHROOM_LED, GPIO_BEDROOM_LED]; 
 
 var gpio = [
-	new Gpio(5, 'out'),
-	new Gpio(6, 'out'),
-	new Gpio(13, 'out'),
-	new Gpio(19, 'out'),
-	new Gpio(26, 'out')
+	//new Gpio(5, 'out'),
+	//new Gpio(6, 'out'),
+	//new Gpio(13, 'out'),
+	//new Gpio(19, 'out'),
+	new Gpio(12, 'out'),
+	new Gpio(16, 'out'),
+	new Gpio(20, 'out'),
+	new Gpio(21, 'out')
 ]
 
 var homeJSON = [
@@ -145,7 +161,7 @@ app.post('/api/sensor',function (req, res) {
 	var ip = query.ip;
 	var roomName = query.roomName;
 	var value = presence > 0 ? 1 : 0;
-
+	/*
 	if(deviceMAC=="5C:CF:7F:8F:74:F4" || deviceMAC== "5C:CF:7F:8F:72:BE"){
 		if(value == 1){
 			switch(deviceMAC){
@@ -161,8 +177,8 @@ app.post('/api/sensor',function (req, res) {
 			}
 		}
 		kitchenTimer(query);
-	}
-	else{
+	}*/
+	//else {
 		
 		console.log('Update presence from the HuzzaFeather ip '+ip+' with MAC '+deviceMAC+' room '+roomName+' presence detected ' + presence);
 
@@ -173,13 +189,17 @@ app.post('/api/sensor',function (req, res) {
 				for (var j = 0; j < roomMacArray.length; j++) {
 					if (deviceMAC == roomMacArray[j]) {
 						roomJSON.presence = value;
-						gpio[i].write(value, function() {
-						//console.log('Post from the HuzzaFeather with MAC '+deviceMAC+ ' presence detected ' + value)
-						});
+						//gpio[i].write(value, function() {
+						gpioRoomPins[i].write(value,function() {});
+						//gpioRoomLightPins[i].write(value,function() {});
+							//console.log('Post from the HuzzaFeather with MAC '+deviceMAC+ ' presence detected ' + value)
+						//});
 						break;
 					} else {
 						roomJSON.presence = 0;
-						gpio[i].write(0, function() {});
+						//gpio[i].write(0, function() {});
+						gpioRoomPins[i].write(0, function() {});
+						//gpioRoomLightPins[i].write(0, function() {});
 					}
 				}
 			})
@@ -196,14 +216,14 @@ app.post('/api/sensor',function (req, res) {
 			}
 	
 			io.emit('message', homeJSON);
-		
+			/*
 			if (deviceMAC == "5C:CF:7F:8F:77:E4") {
 				RCLK.write(0, function() {});
-				hc595_in(value);
-				sleep(1).then(hc595_out());
-			}
+				//hc595_in(value);
+				//sleep(1).then(hc595_out());
+			}*/
 		}
-	}
+	//}
 
 
 	res.send('200');
@@ -225,13 +245,19 @@ function kitchenTimer(vars){
 				for (var j = 0; j < roomMacArray.length; j++) {
 					if (deviceMAC == roomMacArray[j]) {
 						roomJSON.presence = value;
-						gpio[j].write(value, function() {
+						//gpio[j].write(value, function() {
 						//console.log('Post from the HuzzaFeather with MAC '+deviceMAC+ ' presence detected ' + value)
-						});
+						//});
+						console.log('Enable kitchen sensor on index => '+j);
+						gpioRoomPins[j].write(value, function() {});
+						//gpioRoomLightPins[j].write(value, function() {});
 						break;
 					} else {
 						roomJSON.presence = 0;
-						gpio[j].write(0, function() {});
+						//gpio[j].write(0, function() {});
+						console.log('Disable kitchen sensor on index => '+j);
+						gpioRoomPins[j].write(0, function() {});
+						//gpioRoomLightPins[j].write(0, function() {});
 					}
 				}
 
@@ -253,7 +279,7 @@ function kitchenTimer(vars){
 	
 		kitchen1 = false;
 		kitchen2 = false;
-	},1000);
+	},10000);
 }
 
 function sleep (time) {
@@ -261,21 +287,23 @@ function sleep (time) {
 }
 
 // Sound attenuator bit stream communication with clock
+/*
 function hc595_in(dat) {
 	for(i = 0; i < 8; i++) {
 		SDI.write(dat, function() {});
 		SRCLK.write(1, function() {});
 		SRCLK.write(0, function() {});
 	}
-}
+}*/
 
 // Sound attenuator load pin. Set to high then low
+/*
 function hc595_out() {
 	RCLK.write(1, function() {});
 	sleep(1).then(() => {
 		RCLK.write(0, function() {});
 	});
-}
+}*/
 
 // Socket IO connection
 io.on('connection', function (client) {
@@ -291,6 +319,7 @@ http.listen(3001, function(){
 
 // Process exit 0
 process.on('SIGINT', function() {
+	console.log('Reset GPIO pins !');
 	gpio.forEach(function(gpioPin) {
 		gpioPin.write(0, function() {});
 		gpioPin.unexport();

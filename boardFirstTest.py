@@ -61,45 +61,55 @@ def writeSoundAtenuatorData(data):
 		time.sleep(0.001) #0.001 seconds
 		GPIO.output(CLOCK,GPIO.LOW)
 		
-		print("send data")
+		#print("send data")
 	
 	return;
 	
 # LED CHECK	
 def lightControlLED():
-	GPIO.setup(18,GPIO.OUT)
-	print "LED on"
-	GPIO.output(18,GPIO.HIGH)
-	time.sleep(5)
-	print "LED off"
-	GPIO.output(18,GPIO.LOW)
+	#GPIO.setup(18,GPIO.OUT)
+	#print "LED off"
+	#GPIO.output(18,GPIO.HIGH)
+	#time.sleep(5)
+	#print "LED on"
+	#GPIO.output(18,GPIO.LOW)
 	return;
 
 # Main program
 # setup pins to correct purpose and value
-setupPins()
+#setupPins()
+loopvar = 1
 
-# address to the last card J9 in mother board
-# LOAD line value will be set to low
-addressSetLoadPinLow()
+while loopvar == 1:
+	
+	setupPins()
+	
+	# address to the last card J9 in mother board
+	# LOAD line value will be set to low
+	time.sleep(2)
+	addressSetLoadPinLow()
+	print "LOW"
+	time.sleep(2)
+	# write atenuator data 0000 0000 to disable te atenuation check LM1971 
+	# datasheet
+	#writeSoundAtenuatorData(0)
 
-# write atenuator data 0000 0000 to disable te atenuation check LM1971 
-# datasheet
-writeSoundAtenuatorData(0)
+	# set HIGH to all address
+	#addressSetLoadPinHigh()
 
-# set HIGH to all address
-addressSetLoadPinHigh()
+	# Light a led to wait
+	#lightControlLED()
 
-# Light a led to wait
-lightControlLED()
+	addressSetLoadPinHigh()
+	# address to the last card J9 in mother board
+	# LOAD line value will be set to low
+	#addressSetLoadPinLow()
 
-# address to the last card J9 in mother board
-# LOAD line value will be set to low
-addressSetLoadPinLow()
-
-# write atenuator data 0000 0000 to disable te atenuation check LM1971 
-# datasheet
-writeSoundAtenuatorData(0)
-
-# set HIGH to all address
-addressSetLoadPinHigh()
+	# write atenuator data 0000 0000 to disable te atenuation check LM1971 
+	# datasheet
+	#writeSoundAtenuatorData(0)
+	print "HIGH"
+	# set HIGH to all address
+	#addressSetLoadPinHigh()
+	#time.sleep(2)
+	loopvar = 0
