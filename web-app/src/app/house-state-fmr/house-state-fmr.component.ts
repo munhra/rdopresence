@@ -39,7 +39,7 @@ export class HouseStateFMRComponent implements OnInit, AfterContentChecked {
       imageTablet = roomJson.room + '_house.png';
       imageMobile = roomJson.room + '_houseMobile.png';
        this.houseRoom = roomJson.presence >0 ? "../../assets/"+imageTablet: this.houseRoom;
-       this.houseMobile = roomJson.presence >0 ? "../../assets/"+imageTablet: this.houseMobile;
+       this.houseMobile = roomJson.presence >0 ? "../../assets/"+imageMobile: this.houseMobile;
         if(roomJson.presence>0) {
           this.count++;
         }

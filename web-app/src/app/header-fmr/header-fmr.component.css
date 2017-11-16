@@ -14,7 +14,6 @@
     #logoMobile{
         display: block;
         margin: 0 auto;
-        /*width: 4.7em;*/
-        width: 55%;
+        width: 100%;
     }
 }
