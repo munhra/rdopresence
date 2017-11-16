@@ -1,5 +1,42 @@
-.app-component img {
-    position:relative;
-    width: 15%;
-    margin: 4%;
+.app-component{
+    background: linear-gradient(to left, #716BE2 , #9096E4); /* Standard syntax */  
+}
+
+app-header-fmr{
+    margin-top: 3.3%;
+}
+
+app-header-fmr img{
+   margin: 0 auto;
+}
+
+
+app-house-state-fmr{
+    margin-top: 7.2%;
+    margin-left: 10%;
+}
+
+app-rooms-state-fmr-mobile{
+   display: none;
+}
+
+@media (max-width: 990px){
+    app-rooms-state-fmr{
+        display: none;
+    }
+
+    app-header-fmr{
+        margin-top: 10%;
+    }
+
+    app-house-state-fmr{
+        margin-top: 6%;
+        margin-left: 0;
+    }
+
+    app-rooms-state-fmr-mobile{
+        padding: 0;
+        display: block;
+        margin-top: 2%;
+    }
 }

@@ -1,0 +1,20 @@
+#logo{
+    display: block;
+    margin: 0 auto;
+}
+
+#logoMobile{
+    display: none;
+}
+
+@media(max-width: 990px){
+    #logo{
+        display: none;
+    }
+    #logoMobile{
+        display: block;
+        margin: 0 auto;
+        /*width: 4.7em;*/
+        width: 55%;
+    }
+}

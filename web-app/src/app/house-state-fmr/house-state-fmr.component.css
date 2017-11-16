@@ -1,0 +1,21 @@
+img{
+    display: none;
+    margin: 0 auto;
+}
+
+#houseTablet{
+    display: block;
+}
+#houseMobile{
+    display: none;
+}
+
+@media(max-width: 990px){
+    #houseTablet{
+        display: none;
+    }
+    #houseMobile{
+        display: block;
+        width: 85%;
+    }
+}
